@@ -3,75 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Facebook Share</title>
+    
+    <!-- Facebook Open Graph Meta Tags - CRITICAL for share previews -->
+    <!-- Replace with your actual Vercel URL after deployment -->
+    <meta property="og:url" content="https://your-project.vercel.app" />
+    <meta property="og:title" content="FIFA World Cup 2026 - Ultimate Match Guide" />
+    <meta property="og:description" content="Track every match, standings, and highlights from the biggest tournament in football history!" />
+    <!-- Using a placeholder image service that works with Facebook -->
+    <meta property="og:image" content="https://placehold.co/1200x630/009b3a/FFD700?text=FIFA+World+Cup+2026&font=roboto" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="World Cup 2026 Hub" />
+    
+    <title>World Cup 2026 - Share</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 50%, #1a472a 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #f0f2f5;
+            padding: 20px;
         }
 
-        .post {
+        .post-card {
             background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .post-header {
+            background: linear-gradient(90deg, #009b3a, #ffd700);
             padding: 24px;
+            color: white;
+            position: relative;
+        }
+
+        .post-header::after {
+            content: '⚽';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 48px;
+            opacity: 0.3;
+        }
+
+        .post-header h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .post-header span {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* CSS-Generated World Cup Image */
+        .post-image {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #009b3a 0%, #1a5f2a 30%, #0d3b1a 70%, #1a472a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Stadium lines effect */
+        .post-image::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255,255,255,0.03) 40px,
+                    rgba(255,255,255,0.03) 41px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255,255,255,0.03) 40px,
+                    rgba(255,255,255,0.03) 41px
+                );
+            transform: perspective(500px) rotateX(60deg);
+            top: -50%;
+        }
+
+        /* Center circle */
+        .center-circle {
+            width: 120px;
+            height: 120px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .center-spot {
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+        }
+
+        /* Animated ball */
+        .soccer-ball {
+            font-size: 80px;
+            z-index: 2;
+            animation: bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .post-image h2 {
+            font-size: 32px;
+            z-index: 2;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            font-weight: 800;
+            margin-top: 16px;
+            letter-spacing: 2px;
+        }
+
+        .post-image p {
+            font-size: 16px;
+            z-index: 2;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Trophy decoration */
+        .trophy-decoration {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .trophy-decoration.right {
+            left: auto;
+            right: 20px;
+        }
+
+        .match-info {
+            padding: 24px;
+            background: #f8f9fa;
+        }
+
+        .match-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 500px;
-            width: 90%;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
 
-        .post h2 {
-            margin: 0 0 12px 0;
-            font-size: 18px;
+        .match-row:hover {
+            transform: translateX(4px);
+        }
+
+        .match-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
             color: #1c1e21;
+            flex: 1;
         }
 
-        .post p {
+        .team:last-child {
+            justify-content: flex-end;
+        }
+
+        .flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f0f2f5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .vs {
+            font-size: 14px;
             color: #65676b;
-            line-height: 1.5;
-            margin: 0 0 20px 0;
+            font-weight: 600;
+            background: #e4e6eb;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 0 12px;
         }
 
-        .fb-share {
+        .time {
+            font-size: 13px;
+            color: #1877f2;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .post-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #e4e6eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats {
+            font-size: 14px;
+            color: #65676b;
+        }
+
+        /* Facebook Share Button */
+        .fb-share-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
+            gap: 10px;
+            padding: 12px 24px;
             background: #1877f2;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
         }
 
-        .fb-share:hover {
+        .fb-share-btn:hover {
             background: #166fe5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
         }
 
-        .fb-share svg {
-            width: 18px;
-            height: 18px;
+        .fb-share-btn:active {
+            transform: translateY(0);
+        }
+
+        .fb-share-btn svg {
+            width: 20px;
+            height: 20px;
             fill: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1c1e21;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .post-header h1 { font-size: 20px; }
+            .post-image h2 { font-size: 22px; }
+            .match-row { flex-direction: column; gap: 8px; text-align: center; }
+            .team:last-child { justify-content: center; }
+            .post-footer { flex-direction: column; gap: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="post">
-        <h2>Sample Post Title</h2>
-        <p>This is a sample post that you can share on Facebook. Click the button below to try it out!</p>
-        <a class="fb-share" href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            Share on Facebook
-        </a>
+    <div class="post-card">
+        <!-- Header -->
+        <div class="post-header">
+            <h1>FIFA World Cup 2026</h1>
+            <span>United States · Canada · Mexico | June 11 - July 19, 2026</span>
+        </div>
+
+        <!-- CSS-Generated World Cup Image -->
+        <div class="post-image">
+            <div class="trophy-decoration">🏆</div>
+            <div class="trophy-decoration right">🏆</div>
+            <div class="center-circle"></div>
+            <div class="center-spot"></div>
+            <div class="soccer-ball">⚽</div>
+            <h2>WORLD CUP 2026</h2>
+            <p>48 Teams · 104 Matches · 3 Host Nations</p>
+        </div>
+
+        <!-- Match Info -->
+        <div class="match-info">
+            <div class="match-row">
+                <div class="team">
+                    <div class="flag">🇺🇸</div>
+                    USA
+                </div>
+                <div class="vs">VS</div>
+                <div class="team">
+                    <div class="flag">🇲🇽</div>
+                    Mexico
+                </div>
+                <div class="time">June 11</div>
+            </div>
+            <div class="match-row">
+                <div class="team">
+                    <div class="flag">🇧🇷</div>
+                    Brazil
+                </div>
+                <div class="vs">VS</div>
+                <div class="team">
+                    <div class="flag">🇦🇷</div>
+                    Argentina
+                </div>
+                <div class="time">June 15</div>
+            </div>
+            <div class="match-row">
+                <div class="team">
+                    <div class="flag">🇫🇷</div>
+                    France
+                </div>
+                <div class="vs">VS</div>
+                <div class="team">
+                    <div class="flag">🇩🇪</div>
+                    Germany
+                </div>
+                <div class="time">June 20</div>
+            </div>
+        </div>
+
+        <!-- Footer with Share Button -->
+        <div class="post-footer">
+            <div class="stats">👍 12.5K · 💬 3.2K · 🔄 890</div>
+            <button class="fb-share-btn" onclick="shareOnFacebook()">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                Share on Facebook
+            </button>
+        </div>
     </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">✅ Opening Facebook Share Dialog...</div>
+
+    <script>
+        function shareOnFacebook() {
+            // IMPORTANT: Replace with your actual Vercel URL after deployment
+            // Example: https://world-cup-2026.vercel.app
+            const siteUrl = 'https://your-project.vercel.app';
+            
+            // Facebook Share Dialog URL
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
+            
+            // Open in popup (Facebook recommends this size)
+            const popup = window.open(
+                shareUrl, 
+                'facebook-share-dialog', 
+                'width=626,height=436,toolbar=no,menubar=no,scrollbars=no,resizable=no'
+            );
+            
+            // Fallback if popup blocked
+            if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                window.location.href = shareUrl;
+            }
+            
+            // Show feedback toast
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
 
 </body>
 </html>
