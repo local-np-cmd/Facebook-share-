@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Facebook Share</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+        }
+
+        .post {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .post h2 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            color: #1c1e21;
+        }
+
+        .post p {
+            color: #65676b;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+        }
+
+        .fb-share {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .fb-share:hover {
+            background: #166fe5;
+        }
+
+        .fb-share svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="post">
+        <h2>Sample Post Title</h2>
+        <p>This is a sample post that you can share on Facebook. Click the button below to try it out!</p>
+        <a class="fb-share" href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Share on Facebook
+        </a>
+    </div>
+
+</body>
+</html>
